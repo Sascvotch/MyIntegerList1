@@ -1,11 +1,9 @@
-package ru.skypro;
-
-public interface IntegerList {
+public interface IntList {
 
     // Добавление элемента.
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
-    Integer add(Integer item) throws MyIntegerList.MyException;
+    int add(int item) throws MyIntList.MyException;
 
     // Добавление элемента
     // на определенную позицию списка.
@@ -14,7 +12,7 @@ public interface IntegerList {
     // выбросить исключение.
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
-    Integer add(int index, Integer item) throws MyIntegerList.MyException;
+    int addIndexItem(int index, int item)throws MyIntList.MyException;
 
     // Установить элемент
     // на определенную позицию,
@@ -23,44 +21,44 @@ public interface IntegerList {
     // если индекс больше
     // фактического количества элементов
     // или выходит за пределы массива.
-    Integer set(int index, Integer item) throws MyIntegerList.MyException;
+    int set(int index, int item) throws MyIntList.MyException;
 
     // Удаление элемента.
     // Вернуть удаленный элемент
     // или исключение, если подобный
     // элемент отсутствует в списке.
-    Integer remove(Integer item) throws MyIntegerList.MyException;
+    int removeItem (int item) throws MyIntList.MyException;
 
     // Удаление элемента по индексу.
     // Вернуть удаленный элемент
     // или исключение, если подобный
     // элемент отсутствует в списке.
-    Integer remove(int index) throws MyIntegerList.MyException;
+    int remove(int index) throws MyIntList.MyException;
 
     // Проверка на существование элемента.
     // Вернуть true/false;
-    boolean contains(Integer item) throws MyIntegerList.MyException;
+    boolean contains(int item) throws MyIntList.MyException;
 
     // Поиск элемента.
     // Вернуть индекс элемента
     // или -1 в случае отсутствия.
-    int indexOf(Integer item) throws MyIntegerList.MyException;
+    int indexOf(int item) throws MyIntList.MyException;
 
     // Поиск элемента с конца.
     // Вернуть индекс элемента
     // или -1 в случае отсутствия.
-    int lastIndexOf(Integer item) throws MyIntegerList.MyException;
+    int lastIndexOf(int item)throws MyIntList.MyException ;
 
     // Получить элемент по индексу.
     // Вернуть элемент или исключение,
     // если выходит за рамки фактического
     // количества элементов.
-    Integer get(int index) throws MyIntegerList.MyException;
+    int get(int index) throws MyIntList.MyException;
 
     // Сравнить текущий список с другим.
     // Вернуть true/false или исключение,
     // если передан null.
-    boolean equals(MyIntegerList[] otherList) throws MyIntegerList.MyException;
+    boolean equals(MyIntList[] otherList) throws MyIntList.MyException;
 
     // Вернуть фактическое количество элементов.
     int size();
@@ -76,7 +74,7 @@ public interface IntegerList {
     // Создать новый массив
     // из строк в списке
     // и вернуть его.
-    Integer[] toArray();
+    int[] toArray();
 }
 
 
