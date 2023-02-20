@@ -6,11 +6,12 @@ public class MyIntList implements IntList {
 
     private int[] myArrayList;
     private int countElements = 0;
+    private int capacity = 5;
     private final SortArr sortArr = new SortArr();
 
 
     public MyIntList(int countElements) {
-        myArrayList = new int[countElements];
+        myArrayList = new int[capacity];
     }
 
     public MyIntList generateRandomArray(int countElements) throws MyException {
@@ -52,13 +53,17 @@ public class MyIntList implements IntList {
     @Override
     public boolean contains(int item) throws MyException {
         MyIntList myIntList = new MyIntList(0);
-        sortArr.sortInsertion(myIntList);
+       // sortArr.sortInsertion(myIntList);
+        sortArr.quickSort(myIntList,0,myIntList.size()-1);
         return myIntList.binarySearch(myIntList, item);
     }
 
     @Override
     public int add(int item) throws MyException {
         int index = countElements;
+        if (index == capacity) {
+            grow();
+        }
         addIndexItem(index, item);
         return item;
     }
@@ -68,22 +73,34 @@ public class MyIntList implements IntList {
         return "MyIntList{" +
                 "myArrayList=" + Arrays.toString(myArrayList) +
                 ", countElements=" + countElements +
+                ", capacity=" + capacity +
+                ", lenght=" + myArrayList.length +
                 '}';
+    }
+
+    private int[] grow() {
+        capacity = (int) (myArrayList.length * 1.5);
+        int[] tempArray = Arrays.copyOf(myArrayList, myArrayList.length);
+        myArrayList = new int[capacity];
+        myArrayList = Arrays.copyOf(tempArray, capacity);
+        return myArrayList;
     }
 
     @Override
     public int addIndexItem(int index, int item) throws MyException {
         if (index > countElements) {
-            throw new MyException("Индекс превышает массив");
+            throw new MyException("Индекс не должен превышать количество элементов больше,чем на 1");
         } else {
+            if (countElements + 1 == capacity) {
+                grow();
+            }
             int[] tempArray = Arrays.copyOf(myArrayList, index);
-            int[] tempArrayAfterIndex = Arrays.copyOfRange(myArrayList, index, countElements);
-            myArrayList = new int[countElements + 1];
-            myArrayList = Arrays.copyOf(tempArray, countElements + 1);
+            int[] tempArrayAfterIndex = Arrays.copyOfRange(myArrayList, index, myArrayList.length);
+            myArrayList = new int[capacity];
+            myArrayList = Arrays.copyOf(tempArray, capacity);
             myArrayList[index] = item;
-            System.arraycopy(tempArrayAfterIndex, 0, myArrayList, index + 1, tempArrayAfterIndex.length);
+            System.arraycopy(tempArrayAfterIndex, 0, myArrayList, index + 1, countElements - index);
             countElements++;
-           // System.out.println("Элемент " + item + " добавлен на позицию " + index + " Теперь массив:" + Arrays.toString(myArrayList));
             return item;
         }
     }
@@ -94,7 +111,6 @@ public class MyIntList implements IntList {
             throw new MyException("Индекс превышает массив");
         } else {
             myArrayList[index] = item;
-            //  System.out.println("Элемент " + item + " добавлен на позицию " + index + " Массив теперь:" + Arrays.toString(myArrayList));
             return item;
         }
     }
@@ -111,7 +127,7 @@ public class MyIntList implements IntList {
 
     @Override
     public int remove(int index) throws MyException {
-        if (index < 0 || index > countElements) {
+        if (index < 0 || index > capacity) {
             throw new MyException("Введите корректное значение в диапозоне от 0 до " + myArrayList.length);
         } else {
             int[] tempArray = Arrays.copyOf(myArrayList, countElements);
@@ -119,7 +135,6 @@ public class MyIntList implements IntList {
             System.arraycopy(tempArray, 0, myArrayList, 0, index);
             System.arraycopy(tempArray, index + 1, myArrayList, index, tempArray.length - index - 1);
             countElements--;
-            //System.out.println("Элемент с индексом " + index + " удален. Теперь массив: " + Arrays.toString(myArrayList));
             return tempArray[index];
         }
     }
@@ -140,7 +155,6 @@ public class MyIntList implements IntList {
         return index;
     }
 
-
     @Override
     public int lastIndexOf(int item) throws MyException {
         int index = -1;
@@ -156,7 +170,6 @@ public class MyIntList implements IntList {
         }
         return index;
     }
-
 
     @Override
     public int get(int index) throws MyException {
@@ -186,7 +199,7 @@ public class MyIntList implements IntList {
     @Override
     public int size() {
         //System.out.println("Размер маасива " + Arrays.toString(myArrayList) + " -- " + countElements + " элементов");
-        return countElements;
+        return myArrayList.length;
     }
 
     @Override
@@ -204,7 +217,6 @@ public class MyIntList implements IntList {
     public void clear() {
         myArrayList = new int[0];
         countElements = 0;
-        System.out.println(Arrays.toString(myArrayList));
     }
 
     @Override
@@ -214,7 +226,6 @@ public class MyIntList implements IntList {
         for (int i = 0; i < listFromInt.size(); i++) {
             arrayFromList[i] = listFromInt.get(i);
         }
-       // System.out.println(Arrays.toString(arrayFromList));
         return arrayFromList;
     }
 
@@ -223,7 +234,6 @@ public class MyIntList implements IntList {
         for (int i = 0; i < listFromInt.size(); i++) {
             arrayFromList[i] = listFromInt.get(i);
         }
-        //System.out.println(Arrays.toString(arrayFromList));
         return arrayFromList;
     }
 
